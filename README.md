@@ -6,3 +6,9 @@ Ninapro is a a publicly available multimodal database to foster research on robo
 ## [InceptionTime Model](https://arxiv.org/abs/1909.04939)
 InceptionTime is a 1D Convolution based Deep Neural Network model which is currently quoted as the state of the art TSC model from the published paper InceptionTime: Finding AlexNet for Time Series Classification.
 
+### Dataset Preperation Notebook 
+- [Ninapro Dataset Prep Pipeline](https://github.com/fazildgr8/myotron_control/blob/main/Ninapro_prep.ipynb)
+### InceptionTime Model Training Notebooks 
+- [Wrist Motion Classifier](https://github.com/fazildgr8/myotron_control/blob/main/emg_classification_inception_wrist.ipynb)
+- [Wrist Motion Classifier](https://github.com/fazildgr8/myotron_control/blob/main/emg_classification_inception_grasp.ipynb)
+
