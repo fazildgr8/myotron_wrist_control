@@ -12,3 +12,11 @@ InceptionTime is a 1D Convolution based Deep Neural Network model which is curre
 - [Wrist Motion Classifier](https://github.com/fazildgr8/myotron_control/blob/main/emg_classification_inception_wrist.ipynb)
 - [Grasp Motion Classifier](https://github.com/fazildgr8/myotron_control/blob/main/emg_classification_inception_grasp.ipynb)
 
+## Current Best Model Accuracies
+
+| Window Length/Overlap | 25% | 50% | 80% |
+|:-:|:-:|:-:|:-:|
+| 100 |  |  |  |
+| 150 |  | 91 |  |
+| 400 |  | 88 |  |
+
