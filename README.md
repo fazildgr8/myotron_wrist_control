@@ -15,7 +15,7 @@ InceptionTime is a 1D Convolution based Deep Neural Network model which is curre
 ## Mujoco Virtual Reality Environment
 The Mujoco Virtual Reality Controller is developed with OpenVR SDK and Delsys Trigno SDK for aquiring the EMG signals. The VR environment can be found in self developed seperate repository. [Mujoco Virtual Reality Development](https://github.com/fazildgr8/mujoco200_awear) **(https://github.com/fazildgr8/mujoco200_awear)**
 <p align="center">
-  <img src="https://github.com/fazildgr8/myotron_control/blob/main/media/mujoco_cap.PNG" width="40%">
+  <img src="https://github.com/fazildgr8/myotron_control/blob/main/media/mujoco_cap.PNG" width="25%">
 </p>
 
 ## Current Best Model Accuracies
