@@ -13,7 +13,7 @@ InceptionTime is a 1D Convolution based Deep Neural Network model which is curre
 - [Grasp Motion Classifier](https://github.com/fazildgr8/myotron_control/blob/main/emg_classification_inception_grasp.ipynb)
 
 ## Mujoco Virtual Reality Environment
-The Mujoco Virtual Reality Controller is developed with OpenVR SDK and Delsys Trigno SDK for aquiring the EMG signals. The VR environment can be found in self developed seperate repository. **[Mujoco Virtual Reality Development](https://github.com/fazildgr8/mujoco200_awear)
+The Mujoco Virtual Reality Controller is developed with OpenVR SDK and Delsys Trigno SDK for aquiring the EMG signals. The VR environment can be found in self developed seperate repository. [Mujoco Virtual Reality Development](https://github.com/fazildgr8/mujoco200_awear) **(https://github.com/fazildgr8/mujoco200_awear)**
 
 ## Current Best Model Accuracies
 | Window Length/Overlap | 25% | 50% | 80% |
