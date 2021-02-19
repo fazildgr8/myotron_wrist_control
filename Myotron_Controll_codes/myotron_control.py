@@ -1,8 +1,8 @@
 import numpy as np
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
-
-
+from queue import Queue 
+fifo = Queue()
 
 model = load_model('best_model_93.hdf5')
 print('Loading Model...')
