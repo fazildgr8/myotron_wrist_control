@@ -1,5 +1,21 @@
 import numpy as np
-        
+from keras.models import load_model
+from sklearn.preprocessing import MinMaxScaler
+
+
+
+model = load_model('best_model_93.hdf5')
+print('Loading Model...')
+print(model.summary())
+
+
+def wrist_classifier(data):
+    data = np.array(data) 
+    data = np.reshape(data,(1,150,8))
+    pred = model.predict(data,batch_size=1)[0]
+    print(pred)
+    return pred
+
 def soft_to_Sortedclass(clf_array):
     clf_array = list(clf_array)
     n = len(clf_array)
@@ -20,21 +36,4 @@ def agregation_node(fifo_array):
             counter = curr_frequency 
             num = i 
     return num 
-
-
-
-# class wrist:
-#     def __init__(self,fifo_size):
-#         self.clf_soft_array = np.zeros(10)
-#         self.fifo_array = np.zeros(fifo_size)
-
-#     def soft_to_Sortedclass(self,clf_array):
-#         clf_array = list(clf_array)
-#         n = len(clf_array)
-#         sorted_class = sorted(range(len(clf_array)),key=clf_array.__getitem__)
-#         return sorted_class
-
-#     def fifo_node(self,clf_array,size):
-#         clf_array = np.array(clf_array)
-#         return clf_array[0:size]
 
