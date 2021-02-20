@@ -3,9 +3,10 @@ import datetime
 import random
 import numpy as np
 
+bind_addr = "tcp://127.0.0.1:5555"
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
-socket.bind("tcp://127.0.0.1:5555")
+socket.bind(bind_addr)
 # socket.bind("tcp://localhost:5555")
 
 def arr_fromat(arr):
