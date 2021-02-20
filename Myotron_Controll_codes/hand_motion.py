@@ -13,6 +13,99 @@ import numpy as np
 9 - Extension with closed hand
 """
 
+step_size = 0.01
+rest_qpos = np.zeros(13)
+
+def class_0(current_qpos,step_size=0.01):
+    return rest_qpos
+
+def class_1(current_qpos,step_size=0.01):
+    qpos = rest_qpos
+    roll = current_qpos[0] 
+    nroll = roll+step_size
+    if(nroll<=1.57 and nroll>=-1.57):
+        qpos[0] = nroll
+    if(abs(nroll-1.57)<=0.01):
+        qpos[0]=1.57 
+    return qpos
+
+def class_2(current_qpos,step_size=0.01):
+    qpos = rest_qpos
+    roll = current_qpos[0] 
+    nroll = roll-step_size
+    if(nroll<=1.57 and nroll>=-1.57):
+        qpos[0] = nroll
+    if(abs(nroll+1.57)<=0.01):
+        qpos[0]=-1.57    
+    return qpos
+
+def class_3(current_qpos,step_size=0.01):
+    qpos = rest_qpos
+    roll = current_qpos[0]
+    yaw = 0.5
+    nroll = roll+step_size
+    if(nroll<=1.57 and nroll>=-1.57):
+        qpos[0] = nroll
+    if(abs(nroll-1.57)<=0.01):
+        qpos[0]=1.57 
+    qpos[1] = yaw
+    return qpos
+
+def class_4(current_qpos,step_size=0.01):
+    qpos = rest_qpos
+    roll = current_qpos[0]
+    yaw = 0.5
+    nroll = roll-step_size
+    if(nroll<=1.57 and nroll>=-1.57):
+        qpos[0] = nroll
+    if(abs(nroll+1.57)<=0.01):
+        qpos[0]=-1.57   
+    qpos[1] = yaw 
+    return qpos
+
+def class_5(current_qpos,step_size=0.01):
+    qpos = rest_qpos
+    pitch = current_qpos[2] 
+    npitch = pitch+step_size
+    if(npitch<=1 and npitch>=-1):
+        qpos[2] = npitch
+    if(abs(npitch-1)<=0.01):
+        qpos[2]=1
+    return qpos
+
+def class_6(current_qpos,step_size=0.01):
+    qpos = rest_qpos
+    pitch = current_qpos[2] 
+    npitch = pitch-step_size
+    if(npitch<=1 and npitch>=-1):
+        qpos[2] = npitch
+    if(abs(npitch+1)<=0.01):
+        qpos[2]=-1
+    return qpos
+
+def class_7(current_qpos,step_size=0.01):
+    qpos = rest_qpos
+    yaw = current_qpos[1] 
+    nyaw = yaw-step_size
+    if(nyaw<=0.79 and nyaw>=-0.26):
+        qpos[1] = nyaw
+    if(abs(nyaw+0.26)<=0.01):
+        qpos[1]=-0.26
+    return qpos
+
+def class_8(current_qpos,step_size=0.01):
+    qpos = rest_qpos
+    yaw = current_qpos[1] 
+    nyaw = yaw+step_size
+    if(nyaw<=0.79 and nyaw>=-0.26):
+        qpos[1] = nyaw
+    if(abs(nyaw-0.79)<=0.01):
+        qpos[1]=0.79
+    return qpos
+
+def class_9(current_qpos,step_size=0.01):
+    return qpos
+
 """
 pos
 Pose of Hand
@@ -46,91 +139,3 @@ Fingers
 11 - A_pinky_ABD "0 0.34"
 12 - A_pinky_MCP "0 1.6"
 """
-step_size = 0.01
-rest_qpos = np.zeros(13)
-
-def class_0(current_qpos):
-    return rest_qpos
-
-def class_1(current_qpos):
-    qpos = rest_qpos
-    c_roll = current_qpos[0] 
-    n_roll = roll+step_size
-    if(roll<=1.57 and n_roll>=-1.57):
-        qpos[0] = n_roll
-    if(abs(roll-1.57)<=0.01):
-        qpos[0]=1.57 
-    return qpos
-
-def class_2(current_qpos):
-    qpos = rest_qpos
-    c_roll = current_qpos[0] 
-    n_roll = roll-step_size
-    if(roll<=1.57 and n_roll>=-1.57):
-        qpos[0] = n_roll
-    if(abs(roll+1.57)<=0.01):
-        qpos[0]=-1.57    
-    return qpos
-
-def class_3(current_qpos):
-    qpos = rest_qpos
-    c_roll = current_qpos[0] 
-    n_roll = roll+step_size
-    if(roll<=1.57 and n_roll>=-1.57):
-        qpos[0] = n_roll
-    if(abs(roll-1.57)<=0.01):
-        qpos[0]=1.57 
-    return qpos
-
-def class_4(current_qpos):
-    qpos = rest_qpos
-    c_roll = current_qpos[0] 
-    n_roll = roll-step_size
-    if(roll<=1.57 and n_roll>=-1.57):
-        qpos[0] = n_roll
-    if(abs(roll+1.57)<=0.01):
-        qpos[0]=-1.57    
-    return qpos
-
-def class_5(current_qpos):
-    qpos = rest_qpos
-    c_pitch = current_qpos[2] 
-    n_pitch = pitch+step_size
-    if(pitch<=1 and n_pitch>=-1):
-        qpos[2] = n_pitch
-    if(abs(pitch-1)<=0.01):
-        qpos[2]=1
-    return qpos
-
-def class_6(current_qpos):
-    qpos = rest_qpos
-    c_pitch = current_qpos[2] 
-    n_pitch = pitch-step_size
-    if(pitch<=1 and n_pitch>=-1):
-        qpos[2] = n_pitch
-    if(abs(pitch+1)<=0.01):
-        qpos[2]=-1
-    return qpos
-
-def class_7(current_qpos):
-    qpos = rest_qpos
-    c_yaw = current_qpos[0] 
-    n_yaw = yaw-step_size
-    if(yaw<=-0.26 and n_yaw>=0.79):
-        qpos[0] = n_yaw
-    if(abs(yaw+0.26)<=0.01):
-        qpos[0]=-0.26
-    return qpos
-
-def class_8(current_qpos):
-    qpos = rest_qpos
-    c_yaw = current_qpos[0] 
-    n_yaw = yaw+step_size
-    if(yaw<=-0.26 and n_yaw>=0.79):
-        qpos[0] = n_yaw
-    if(abs(yaw-0.79)<=0.01):
-        qpos[0]=0.79
-    return qpos
-
-def class_9(current_qpos):
-    return qpos
