@@ -16,11 +16,19 @@ import numpy as np
 step_size = 0.01
 rest_qpos = np.zeros(13)
 
+def go_towards_nb(current,limit,step_size=0.01):
+    if(current<limit):
+        return current+step_size
+    elif(current>limit):
+        return current-step_size
+    else:
+        return current 
+
 def class_0(current_qpos,step_size=0.01):
     return rest_qpos
 
 def class_1(current_qpos,step_size=0.01):
-    qpos = rest_qpos
+    qpos = current_qpos
     roll = current_qpos[0] 
     nroll = roll+step_size
     if(nroll<=1.57 and nroll>=-1.57):
@@ -30,7 +38,7 @@ def class_1(current_qpos,step_size=0.01):
     return qpos
 
 def class_2(current_qpos,step_size=0.01):
-    qpos = rest_qpos
+    qpos = current_qpos
     roll = current_qpos[0] 
     nroll = roll-step_size
     if(nroll<=1.57 and nroll>=-1.57):
@@ -40,7 +48,7 @@ def class_2(current_qpos,step_size=0.01):
     return qpos
 
 def class_3(current_qpos,step_size=0.01):
-    qpos = rest_qpos
+    qpos = current_qpos
     roll = current_qpos[0]
     yaw = 0.5
     nroll = roll+step_size
@@ -52,7 +60,7 @@ def class_3(current_qpos,step_size=0.01):
     return qpos
 
 def class_4(current_qpos,step_size=0.01):
-    qpos = rest_qpos
+    qpos = current_qpos
     roll = current_qpos[0]
     yaw = 0.5
     nroll = roll-step_size
@@ -64,7 +72,7 @@ def class_4(current_qpos,step_size=0.01):
     return qpos
 
 def class_5(current_qpos,step_size=0.01):
-    qpos = rest_qpos
+    qpos = current_qpos
     pitch = current_qpos[2] 
     npitch = pitch+step_size
     if(npitch<=1 and npitch>=-1):
@@ -74,7 +82,7 @@ def class_5(current_qpos,step_size=0.01):
     return qpos
 
 def class_6(current_qpos,step_size=0.01):
-    qpos = rest_qpos
+    qpos = current_qpos
     pitch = current_qpos[2] 
     npitch = pitch-step_size
     if(npitch<=1 and npitch>=-1):
@@ -84,7 +92,7 @@ def class_6(current_qpos,step_size=0.01):
     return qpos
 
 def class_7(current_qpos,step_size=0.01):
-    qpos = rest_qpos
+    qpos = current_qpos
     yaw = current_qpos[1] 
     nyaw = yaw-step_size
     if(nyaw<=0.79 and nyaw>=-0.26):
@@ -94,7 +102,7 @@ def class_7(current_qpos,step_size=0.01):
     return qpos
 
 def class_8(current_qpos,step_size=0.01):
-    qpos = rest_qpos
+    qpos = current_qpos
     yaw = current_qpos[1] 
     nyaw = yaw+step_size
     if(nyaw<=0.79 and nyaw>=-0.26):
@@ -104,7 +112,43 @@ def class_8(current_qpos,step_size=0.01):
     return qpos
 
 def class_9(current_qpos,step_size=0.01):
+    qpos = current_qpos
+    pitch = current_qpos[2] 
+    npitch = pitch-step_size
+    if(npitch<=1 and npitch>=-1):
+        qpos[2] = npitch
+    if(abs(npitch+1)<=0.01):
+        qpos[2]=-1
+    qpos[3] = 0
+    qpos[4] = go_towards_nb(qpos[4],1)
+    qpos[5] = go_towards_nb(qpos[5],1)
+    qpos[6] = 0
+
+    qpos[7] = go_towards_nb(qpos[7],0.34)
+    qpos[8] = go_towards_nb(qpos[8],1.6)
+    qpos[9] = go_towards_nb(qpos[9],1.6)
+    qpos[10] = go_towards_nb(qpos[10],1.6)
+    qpos[11] = go_towards_nb(qpos[11],0.34)
+    qpos[12] = go_towards_nb(qpos[12],1.6)
     return qpos
+
+def grasp_0(current_qpos,step_size=0.01):
+    qpos = current_qpos
+    qpos[3] = go_towards_nb(qpos[3],2)
+    qpos[4] = go_towards_nb(qpos[4],0.5)
+    qpos[5] = go_towards_nb(qpos[5],0.5)
+    qpos[6] = go_towards_nb(qpos[6],1)
+    j = 1.1
+    qpos[7] = go_towards_nb(qpos[7],0.34)
+    qpos[8] = go_towards_nb(qpos[8],j)
+    qpos[9] = go_towards_nb(qpos[9],j)
+    qpos[10] = go_towards_nb(qpos[10],j)
+    qpos[11] = go_towards_nb(qpos[11],0.34)
+    qpos[12] = go_towards_nb(qpos[12],j)
+
+    return qpos
+
+
 
 """
 pos

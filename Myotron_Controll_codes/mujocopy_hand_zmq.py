@@ -69,7 +69,7 @@ def sim_step_stack():
     global sim, current_qpos, viewer
     sim.step()
     current_qpos = get_current_qpos(sim)
-    viewer.render()
+    # viewer.render()
 
 def full_update_motion(clf_class):
     global current_qpos
@@ -80,7 +80,10 @@ def full_update_motion(clf_class):
 if __name__ == "__main__":
     current_qpos = rest_qpos()
     while True: 
-        full_update_motion(class_4)
+        full_update_motion(grasp_0)
+        full_update_motion(class_1)
+        viewer.render()
+
 
 
 """
