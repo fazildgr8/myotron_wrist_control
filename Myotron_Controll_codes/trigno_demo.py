@@ -75,6 +75,6 @@ def multichannel_emg(channel_range, sample):
     dev.stop()
     return 0
 if __name__ == '__main__':
-    # get_Single_emg(2,1000)
-    # get_Single_accel(1,20)
+    get_Single_emg(2,1000)
+    get_Single_accel(1,20)
     multichannel_emg(2,150)

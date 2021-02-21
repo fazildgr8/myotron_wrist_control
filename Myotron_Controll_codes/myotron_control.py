@@ -4,15 +4,25 @@ from sklearn.preprocessing import MinMaxScaler
 from queue import Queue 
 fifo = Queue()
 
-model = load_model('best_model_93.hdf5')
-print('Loading Model...')
-print(model.summary())
+model_wrist = load_model('best_model_93.hdf5')
+print('Loading Wrist Model...')
+print(model_wrist.summary())
 
+model_grasp = load_model('best_model_93.hdf5')
+print('Loading Grasp Model...')
+print(model_grasp.summary())
 
 def wrist_classifier(data):
     data = np.array(data) 
     data = np.reshape(data,(1,150,8))
-    pred = model.predict(data,batch_size=1)[0]
+    pred = model_wrist.predict(data,batch_size=1)[0]
+    print(pred)
+    return pred
+
+def grasp_classifier(data):
+    data = np.array(data) 
+    data = np.reshape(data,(1,150,8))
+    pred = model_grasp.predict(data,batch_size=1)[0]
     print(pred)
     return pred
 

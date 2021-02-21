@@ -84,8 +84,6 @@ if __name__ == "__main__":
         full_update_motion(class_1)
         viewer.render()
 
-
-
 """
 pos
 Pose of Hand
