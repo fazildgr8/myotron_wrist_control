@@ -1,0 +1,3 @@
+Data Details         | Train Accuracy | Val Accuracy | loss |
+-------------------------------------------------------------
+Grasp w150 40s 8semg |  99%           | 
