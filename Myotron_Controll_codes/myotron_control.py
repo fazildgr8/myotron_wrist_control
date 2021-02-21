@@ -4,11 +4,11 @@ from sklearn.preprocessing import MinMaxScaler
 from queue import Queue 
 fifo = Queue()
 
-model_wrist = load_model('best_model_93.hdf5')
+model_wrist = load_model('models/wrist_150_90_40s_8semg.hdf5')
 print('Loading Wrist Model...')
 print(model_wrist.summary())
 
-model_grasp = load_model('best_model_93.hdf5')
+model_grasp = load_model('models/grasp_150_90_40s_8semg.hdf5')
 print('Loading Grasp Model...')
 print(model_grasp.summary())
 
