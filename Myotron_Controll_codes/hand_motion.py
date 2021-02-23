@@ -71,7 +71,7 @@ def class_3(current_qpos,step_size=0.01):
         qpos[0] = nroll
     if(abs(nroll-1.57)<=0.01):
         qpos[0]=1.57 
-    qpos[1] = yaw
+    qpos[1] = go_towards_nb(qpos[1],yaw)
     return qpos
 
 def class_4(current_qpos,step_size=0.01):
@@ -83,7 +83,7 @@ def class_4(current_qpos,step_size=0.01):
         qpos[0] = nroll
     if(abs(nroll+1.57)<=0.01):
         qpos[0]=-1.57   
-    qpos[1] = yaw 
+    qpos[1] = go_towards_nb(qpos[1],yaw)
     return qpos
 
 def class_5(current_qpos,step_size=0.01):

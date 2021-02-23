@@ -3,21 +3,21 @@ from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 from queue import Queue 
 fifo = Queue()
-win_len = 150
+win_len = 250
 n_channels = 8
-model_wrist = load_model('models/wrist_150_90_40s_8semg.hdf5')
+model_wrist = load_model('wrist_model_250')
 print('Loading Wrist Model...')
 print(model_wrist.summary())
 
-model_grasp = load_model('E:/Fazil/myotron_control/Myotron_Controll_codes/models/grasp_150_90_40s_8semg.hdf5')
-print('Loading Grasp Model...')
-print(model_grasp.summary())
+# model_grasp = load_model('E:/Fazil/myotron_control/Myotron_Controll_codes/models/grasp_150_90_40s_8semg.hdf5')
+# print('Loading Grasp Model...')
+# print(model_grasp.summary())
 
 def wrist_classifier(data):
     data = np.array(data) 
     data = np.reshape(data,(1,win_len,n_channels))
     pred = model_wrist.predict(data,batch_size=1)[0]
-    print(pred)
+    # print(pred)
     return pred
 
 def grasp_classifier(data):
