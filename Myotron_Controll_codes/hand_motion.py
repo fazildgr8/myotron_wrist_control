@@ -25,7 +25,22 @@ def go_towards_nb(current,limit,step_size=0.01):
         return current 
 
 def class_0(current_qpos,step_size=0.01):
-    return rest_qpos
+    qpos = current_qpos
+    j = 0
+    qpos[0] = go_towards_nb(qpos[3],j)
+    qpos[1] = go_towards_nb(qpos[3],j)
+    qpos[2] = go_towards_nb(qpos[3],j)
+    qpos[3] = go_towards_nb(qpos[3],j)
+    qpos[4] = go_towards_nb(qpos[4],j)
+    qpos[5] = go_towards_nb(qpos[5],j)
+    qpos[6] = go_towards_nb(qpos[6],j)
+    qpos[7] = go_towards_nb(qpos[7],j)
+    qpos[8] = go_towards_nb(qpos[8],j)
+    qpos[9] = go_towards_nb(qpos[9],j)
+    qpos[10] = go_towards_nb(qpos[10],j)
+    qpos[11] = go_towards_nb(qpos[11],j)
+    qpos[12] = go_towards_nb(qpos[12],j)
+    return qpos
 
 def class_1(current_qpos,step_size=0.01):
     qpos = current_qpos
@@ -149,7 +164,7 @@ def grasp_0(current_qpos,step_size=0.01):
     return qpos
 
 
-wrist_moves = [class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9]
+wrist_moves = [class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9, grasp_0]
 
 grasp_moves = [grasp_0]
 """

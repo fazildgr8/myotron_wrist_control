@@ -3,6 +3,45 @@ import os
 import time
 from random import choice
 from hand_motion import*
+import zmq
+import threading
+
+
+########################################################
+global Pcontext, Psocket, move_id
+move_id = 0
+Pcontext = zmq.Context()
+Psocket  = Pcontext.socket( zmq.SUB )
+
+Psocket.connect( "tcp://127.0.0.1:5556" )
+# Send the Class(int) of the Move to this ZMQ Socket
+
+Psocket.setsockopt( zmq.LINGER,     0 )
+Psocket.setsockopt_string( zmq.SUBSCRIBE,"")
+Psocket.setsockopt( zmq.CONFLATE,   1 )
+
+def str_to_array(str_arr):
+     list_str = str_arr.split()
+     arr = np.zeros(len(list_str))
+     for i in range(len(list_str)):
+          arr[i] = float(list_str[i]) 
+     return arr
+
+def recv_qpos():
+    global Psocket
+    recv_bytes = Psocket.recv()
+    qpos = str_to_array(recv_bytes.decode("utf-8"))
+    return qpos
+
+def recv_class():
+    global Psocket
+    recv_bytes = Psocket.recv()
+    return int(recv_bytes.decode("utf-8"))
+
+def assign_move():
+    global move_id
+    while True:
+        move_id = recv_class()
 
 ########################################################
 '''
@@ -39,7 +78,7 @@ def get_current_qpos(sim):
 def update_qpos(pos):
     global sim
     pos = np.array(pos)
-    print(pos)
+    # print(pos)
     sim.data.ctrl[0] = pos[0]  
     sim.data.ctrl[1] = pos[1]
     sim.data.ctrl[2] = pos[2]
@@ -53,6 +92,25 @@ def update_qpos(pos):
     sim.data.ctrl[10] = pos[10]
     sim.data.ctrl[11] = pos[11]
     sim.data.ctrl[12] = pos[12]
+
+def grasp(sim,i):
+    sim.data.ctrl[7] = i
+    sim.data.ctrl[8] = i
+    sim.data.ctrl[9] = i
+    sim.data.ctrl[10] = i
+    sim.data.ctrl[11] = i
+    sim.data.ctrl[12] = i
+    sim.data.ctrl[3] = i
+    sim.data.ctrl[4] = i
+
+def ungrasp(sim,i):
+    sim.data.ctrl[7] = sim.data.ctrl[7] - i
+    sim.data.ctrl[8] = sim.data.ctrl[8] - i
+    sim.data.ctrl[9] = sim.data.ctrl[9] - i
+    sim.data.ctrl[10] = sim.data.ctrl[10] - i
+    sim.data.ctrl[11] = sim.data.ctrl[11] - i
+    sim.data.ctrl[12] = sim.data.ctrl[12] - i
+    sim.data.ctrl[3] = sim.data.ctrl[3] - i
 
 def handPose_update(sim,trans,rot):
     sim.data.qpos[0] = trans[0]
@@ -69,7 +127,7 @@ def sim_step_stack():
     global sim, current_qpos, viewer
     sim.step()
     current_qpos = get_current_qpos(sim)
-    # viewer.render()
+    viewer.render()
 
 def full_update_motion(clf_class):
     global current_qpos
@@ -78,11 +136,14 @@ def full_update_motion(clf_class):
 ##########################################################
 
 if __name__ == "__main__":
+    thread = threading.Thread(target=assign_move)
+    thread.start()
     current_qpos = rest_qpos()
-    while True: 
-        full_update_motion(grasp_0)
-        full_update_motion(class_1)
-        viewer.render()
+    full_update_motion(class_0)
+    while True:
+        full_update_motion(wrist_moves[move_id])
+        # full_update_motion(wrist_moves[1])
+
 
 """
 pos

@@ -99,9 +99,10 @@ def full_update_motion(clf_class):
 
 if __name__ == "__main__":
     current_qpos = rest_qpos()
+    full_update_motion(class_0)
     while True: 
-        full_update_motion(wrist_moves[6])
-        full_update_motion(wrist_moves[1])
+        full_update_motion(wrist_moves[8])
+        # full_update_motion(wrist_moves[1])
 
 
 """
