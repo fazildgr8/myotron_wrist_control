@@ -2,6 +2,14 @@ import numpy as np
 import pytrigno
 from time import sleep
 import numpy as np
+import myotron_control as ctrl
+global emg_data
+
+win_len = 250
+n_channels = 8
+ctrl.win_len = win_len
+ctrl.n_channels = n_channels
+emg_data = np.zeros((win_len,n_channels))
 
 
 def get_Single_emg(channel,sample):
@@ -71,7 +79,26 @@ def multichannel_emg(channel_range, sample):
     dev.stop()
     return 0
     
+def multichannel_emg_window(channel_range=n_channels, sample=win_len):
+    global emg_data
+    channel_range = channel_range-1
+    host = 'localhost'
+    dev = pytrigno.TrignoEMG(channel_range=(0, channel_range), samples_per_read=sample,host=host)
+    dev.start()
+
+    while(True):
+        data = dev.read()
+        sensor_val = data
+        emg_data = np.transpose(sensor_val)
+    dev.stop()
+
+
 if __name__ == '__main__':
+    thread = threading.Thread(target=multichannel_emg_window)
+    thread.start()
+    while(True):
+        print(emg_data)
+        ctrl.grasp_classifier(emg_data)
     # get_Single_emg(2,1000)
     # get_Single_accel(1,20)
-    multichannel_emg(2,150)
+    # multichannel_emg_window(n_channels,win_len)
