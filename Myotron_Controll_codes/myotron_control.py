@@ -17,7 +17,6 @@ def wrist_classifier(data):
     data = np.array(data) 
     data = np.reshape(data,(1,win_len,n_channels))
     pred = model_wrist.predict(data,batch_size=1)[0]
-    # print(pred)
     return pred
 
 def grasp_classifier(data):
