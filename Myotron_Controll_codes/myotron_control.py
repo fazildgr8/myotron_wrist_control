@@ -5,7 +5,7 @@ from queue import Queue
 fifo = Queue()
 win_len = 250
 n_channels = 8
-model_wrist = load_model('wrist_model_250')
+model_wrist = load_model('wrist_model_250_89')
 print('Loading Wrist Model...')
 print(model_wrist.summary())
 

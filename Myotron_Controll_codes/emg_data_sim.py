@@ -22,18 +22,19 @@ def send_emg(qpos):
     socket.send_string(arr_fromat(qpos))
 
 
-sim_emg = np.load('sim_data/s1_raw_emg.npy')
-sim_stimulus = np.load('sim_data/s1_raw_emg.npy')
-print('No.Data Points =',len(sim_stimulus))
+sim_emg = np.load('sim_data/test_windowed.npy')
+# sim_stimulus = np.load('sim_data/s1_raw_emg.npy')
+# print('No.Data Points =',len(sim_stimulus))
 
-print(sim_emg.shape,sim_stimulus.shape)
+
 
 length = ctrl.win_len
-for i in range(sim_emg.shape[0]-length):
-    data = sim_emg[i:i+length]
+for data in sim_emg:
     soft_pred = ctrl.wrist_classifier(data)
-    sorted_clf = ctrl.soft_to_Sortedclass(soft_pred)
-    print(sorted_clf)
-    # sleep(0.1)
+    # sorted_clf = ctrl.soft_to_Sortedclass(soft_pred)
+    # print(sorted_clf)
+    print(data)
+    print(soft_pred,np.argmax(np.array(soft_pred)))
+    sleep(0.0005)
     # print(sim_emg[i:i+length].shape)
     # send_emg(sim_emg[i])
