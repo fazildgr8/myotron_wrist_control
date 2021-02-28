@@ -164,7 +164,7 @@ def grasp_0(current_qpos,step_size=0.01):
     return qpos
 
 
-wrist_moves = [class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9, grasp_0]
+wrist_moves = [class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9, grasp_0]
 
 grasp_moves = [grasp_0]
 """
