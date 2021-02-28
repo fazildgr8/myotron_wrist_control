@@ -26,6 +26,6 @@ The Virtual Reality environment is developed with Mujoco Physics Engine, OpenVR 
 ## Current Best Model Accuracies
 |            Data Prep            	| Val Accuracy 	| Val Loss 	| Train Accuracy 	| Train Loss 	|
 |:-------------------------------:	|:------------:	|----------	|:--------------:	|:----------:	|
-| Grasp window=150x8 40 subjects  	|    98.96%    	| 0.43     	|     99.82%     	|    0.004   	|
-| Wrist window=150x8 40 subjects   	|    90%       	|          	|                	|            	|
+| Grasp window=150x8 40 subjects 9 Labels  	|    98.96%    	| 0.43     	|     99.82%     	|    0.004   	|
+| Wrist window=150x8 40 subjects 2 Labels  	|    90%       	|          	|                	|            	|
 |                                 	|              	|          	|                	|            	|
