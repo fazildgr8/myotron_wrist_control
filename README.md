@@ -17,9 +17,10 @@ The Virtual Reality environment is developed with Mujoco Physics Engine, OpenVR 
 <p align="center">
   <img src="https://github.com/fazildgr8/myotron_control/blob/main/media/mujoco_cap.PNG" width="25%">
 </p>
+
 ## Proposed Wrist Controller
 <p align="center">
-  <img src="https://github.com/fazildgr8/myotron_control/blob/main/media/Motion Controll.jpg" width="25%">
+  <img src="https://github.com/fazildgr8/myotron_control/blob/main/media/Motion Controll.jpg" width="50%">
 </p>
 
 ## Current Best Model Accuracies
