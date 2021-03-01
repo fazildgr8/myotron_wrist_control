@@ -5,7 +5,7 @@ import numpy as np
 Pcontext = zmq.Context()
 Psocket  = Pcontext.socket( zmq.SUB )
 
-Psocket.connect( "tcp://127.0.0.1:5556" )
+Psocket.connect( "tcp://127.0.0.1:5559" )
 
 Psocket.setsockopt( zmq.LINGER,     0 )
 Psocket.setsockopt_string( zmq.SUBSCRIBE,"")

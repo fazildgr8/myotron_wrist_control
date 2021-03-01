@@ -6,10 +6,16 @@ import pandas as pd
 label_file = 'F:/The Stuffs/Awear/Final_Project/myotron_control/data_collection/video_labels.xlsx'
 path = 'F:/The Stuffs/Awear/Final_Project/myotron_control/data_collection/test_3m.mp4'
 sim_file = 'F:/The Stuffs/Awear/Final_Project/myotron_control/Myotron_Controll_codes/sim_data/test_windowed.npy'
+test_pred_file = 'test_pred_frame.npy'
+
+test_pred_frame = list(np.load(test_pred_file))
+for i in range(22):
+    test_pred_frame.insert(0,0)
+print(len(test_pred_frame))
 
 emg_data = np.load(sim_file)
 print('Sim Data = ',emg_data.shape)
-predicted_labels = []
+
 
 
 labels = pd.read_excel(label_file)['labels']
@@ -50,6 +56,15 @@ def ResizeWithAspectRatio(image, width=None, height=None, inter=cv2.INTER_AREA):
 
 label_txt = ['Rest','Suplination','Pronation','Flexion','Extension','Radial','Ulnar','Closed Extended','Grasp']
 
+wrist_moves = ['Suplination - CW (rot axis Mid finger)',
+               'Pronation - CCW (rot axis Mid finger)',
+               'Suplination - CW (rot axis lit finger)',
+               'Pronation - CCW (rot axis lit finger)',
+               'Flexion - Bend Towards',' Extension - Bend Backward',
+               'Radial - Left - CCW',
+               'Radial - Righ - CW',
+               'Extension with closed hand']
+
 frame_number = 0
 while True:
     ret, frame = cap.read() # Read the frame
@@ -73,6 +88,9 @@ while True:
     # Using cv2.putText() method 
     frame = cv2.putText(frame, label_txt[label_frames[frame_number]], org, font,  
                    fontScale, color, thickness, cv2.LINE_AA) 
+
+    frame = cv2.putText(frame, wrist_moves[test_pred_frame[frame_number]], (50,200), font,  
+                   1, (0,0,255), thickness, cv2.LINE_AA) 
 
     cv2.imshow('Time['+str(ts)+']',ResizeWithAspectRatio(frame,width=300))
     frame_number = frame_number+1
