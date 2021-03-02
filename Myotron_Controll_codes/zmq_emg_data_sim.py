@@ -27,12 +27,19 @@ def send_array(qpos):
     socket.send_string(arr_fromat(qpos))
 
 i = 0
+# length = 100
 current_time = datetime.datetime.now()
-while i!=sim_emg.shape[0]:
-    # send_array(sim_emg[i])
+while i!=length:
+    send_array(sim_emg[i])
     i=i+1
-    sleep(1/2154)
+    now = datetime.datetime.now()
+    elp = now - current_time
+    elps = elp.total_seconds()
+    print(i,elps,'s')
+    if(elps>=180):
+        break
+    # sleep(1/100000000000000000000000000)
 now_time = datetime.datetime.now()
 
 elapsed = now_time-current_time
-print(elapsed.total_seconds(),'s')
+print(elapsed.total_seconds(),'s',i)
