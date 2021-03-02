@@ -3,14 +3,15 @@ import datetime
 from time import sleep
 import random
 import numpy as np
-sim_emg = np.load('sim_data/norm_emg_3m.npy')
+# sim_emg = np.load('sim_data/norm_emg_3m.npy')
+sim_emg = np.load('test_3m_pred.npy')
 
 length = sim_emg.shape[0]
 delay = (1/2154)-(1/(length/4.5))
 print('X Delay=',delay)
-sleep(5)
 print(sim_emg.shape)
-bind_addr = "tcp://127.0.0.1:5559"
+sleep(5)
+bind_addr = "tcp://127.0.0.1:5556"
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
 socket.bind(bind_addr)
@@ -30,7 +31,8 @@ i = 0
 # length = 100
 current_time = datetime.datetime.now()
 while i!=length:
-    send_array(sim_emg[i])
+    clf = np.argmax(np.array(sim_emg[i]))
+    socket.send_string(str(int(clf)))
     i=i+1
     now = datetime.datetime.now()
     elp = now - current_time
