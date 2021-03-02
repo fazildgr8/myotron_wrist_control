@@ -24,6 +24,7 @@ def arr_fromat(arr):
     for e in arr2:
         string = string+' '+str(e)
     return string
+    
 def send_array(qpos):
     socket.send_string(arr_fromat(qpos))
 

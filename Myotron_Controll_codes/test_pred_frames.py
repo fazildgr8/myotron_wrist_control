@@ -1,40 +1,24 @@
-from tqdm import tqdm
+from keras.models import load_model
 import numpy as np
 
-wrist_moves = ['Suplination - CW (rot axis Mid finger)',
-               'Pronation - CCW (rot axis Mid finger)',
-               'Suplination - CW (rot axis lit finger)',
-               'Pronation - CCW (rot axis lit finger)',
-               'Flexion - Bend Towards',' Extension - Bend Backward',
-               'Radial - Left - CCW',
-               'Radial - Righ - CW',
-               'Extension with closed hand']
 
-frame_length = 5422
-def most_frequent(List): 
-    counter = 0
-    num = List[0] 
-      
-    for i in List: 
-        curr_frequency = List.count(i) 
-        if(curr_frequency> counter): 
-            counter = curr_frequency 
-            num = i 
-    return num 
+rest_model = load_model('models/')
+prosup_model = load_model('models/prosup_model_250_97') 
+flexex_model = load_model('models/flexex_model_250_96')
+radial_model = load_model('models/Radial_model_250_97')
+grasp_model = load_model('models/grasp_model_250_92')
 
-i = 0
-pred_array = np.load('test_3m_pred.npy')
+sim_emg = np.load('sim_data/test_window.py')
 
-print('Len.Total Preds =',len(pred_array))
 
-pred_frame = [] 
-for i in tqdm(range(5420)):
-    pred = []
-    for j in range(30):
-        pred.append(np.argmax(np.array(pred_array[i+j])))
-    pred_frame.append(most_frequent(pred))
+rest_pred = rest_model.predict(sim_emg)
+flexex_pred = flexex_model.predict(sim_emg)
+radial_pred = radial_model.predict(sim_emg)
+prosup_pred = prosup_model.predict(sim_emg)
+grasp_pred = grasp_model.predict(sim_emg)
+
     
-
-
-
-np.save('test_pred_frame',np.array(pred_frame))
+np.save('sim_data/test_pred_prosup',np.array(pred_frame))
+np.save('sim_data/test_pred_prosup',np.array(pred_frame))
+np.save('sim_data/test_pred_prosup',np.array(pred_frame))
+np.save('sim_data/test_pred_prosup',np.array(pred_frame))
