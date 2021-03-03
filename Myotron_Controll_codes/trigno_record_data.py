@@ -1,15 +1,25 @@
 import numpy as np
 import pytrigno
+from datetime import datetime
 from time import sleep
 import numpy as np
-global emg_data
 import threading
 
+
+global emg_data, current, elapsed, flag
+
+flag = True
 win_len = 250
 n_channels = 8
 
 emg_data = np.zeros((win_len,n_channels))
+elapsed = 0.00
+duration = 200 #s
+tag = 'mixed'
 
+
+windowed_data = []
+time_steps = []
 
 def get_Single_emg(channel,sample):
     channel = channel-1
@@ -85,7 +95,7 @@ def multichannel_emg_window(channel_range=n_channels, sample=win_len):
     dev = pytrigno.TrignoEMG(channel_range=(0, channel_range), samples_per_read=sample,host=host)
     dev.start()
 
-    while(True):
+    while(flag==True):
         data = dev.read()
         sensor_val = data
         emg_data = np.transpose(sensor_val)
@@ -95,9 +105,23 @@ def multichannel_emg_window(channel_range=n_channels, sample=win_len):
 if __name__ == '__main__':
     thread = threading.Thread(target=multichannel_emg_window)
     thread.start()
+    for i in range(10):
+        print('Starts in ',[10-i])
+        sleep(1)
+    start = datetime.now()
+
     while(True):
-        print(emg_data.shape)
-        # ctrl.grasp_classifier(emg_data)
-    # get_Single_emg(2,1000)
-    # get_Single_accel(1,20)
-    # multichannel_emg_window(n_channels,win_len)
+        print(emg_data.shape,elapsed)
+        windowed_data.append(emg_data)
+        time_steps.append(elapsed)
+        current = datetime.now()
+        elp = current - start
+        elapsed = elp.total_seconds()
+        if(elapsed>duration):
+            print('END of Recording',len(windowed_data))
+            flag = False
+            break
+
+        # sleep(0.01)
+    np.save('trigno_window_3m_{}'.format(tag),np.array(windowed_data))
+    np.save('trigno_timesteps_3m_{}'.format(tag),np.array(time_steps))
