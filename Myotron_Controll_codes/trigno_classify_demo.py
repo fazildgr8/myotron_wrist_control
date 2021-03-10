@@ -1,15 +1,29 @@
 import numpy as np
+from keras.models import load_model
 import pytrigno
 from time import sleep
 import numpy as np
-global emg_data
 import threading
+
+global emg_data, model, prosup_class
+
+
+model_file = 'models/restprosup_model_250'
+model = load_model(model_file)
+
+
 
 win_len = 250
 n_channels = 8
 
 emg_data = np.zeros((win_len,n_channels))
 
+
+def classify_prosup(data):
+    global model
+    soft = model.predict(data,batch_size=1)
+    clf = np.reshape(data,(1,win_len,n_channels))
+    return clf
 
 def get_Single_emg(channel,sample):
     channel = channel-1
@@ -91,12 +105,20 @@ def multichannel_emg_window(channel_range=n_channels, sample=win_len):
         emg_data = np.transpose(sensor_val)
     dev.stop()
 
+def classify_thread(delay=0.1):
+    global model, emg_data, prosup_class
+    prosup_class = classify_prosup(emg_data)
+    # print(prosup_class)
+    sleep(delay)
+
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=multichannel_emg_window)
-    thread.start()
+    thread_emg_aq = threading.Thread(target=multichannel_emg_window)
+    thread_clf = threading.Thread(target=classify_thread)
+    thread_emg_aq.start()
     while(True):
         print(emg_data.shape)
+        print(prosup_class)
         # ctrl.grasp_classifier(emg_data)
     # get_Single_emg(2,1000)
     # get_Single_accel(1,20)
