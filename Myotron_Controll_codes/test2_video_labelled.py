@@ -106,7 +106,7 @@ while True:
             txt = txt+' '+ flexex_label[flexex_pred_frame[frame_number]]
         if(prosup_acc[frame_number]>0.95):
             txt = txt+' '+ radial_label[radial_pred_frame[frame_number]]
-q
+            
     if(grasp_pred_frame[frame_number]==1 and grasp_acc[frame_number]>0.999):
         txt = txt +' '+grasp_label[grasp_pred_frame[frame_number]]
     # font 

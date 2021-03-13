@@ -14,18 +14,24 @@ prosup_clf = 0
 curr_ts = 0.0
 emg_window = np.zeros((win_len,n_channels))
 
-prosup_file = 'models/restprosup_model_250'
-prosup_model = load_model(prosup_file)
+
 
 emg_labels = ['emg1','emg2','emg3','emg4','emg5','emg6','emg7','emg8']
 
 emg_df = pd.read_excel('F:/The Stuffs/Awear/Final_Project/myotron_control/Myotron_Controll_codes/sim_data/prosup_norm_200s_labeled.xlsx')
+
+# all_labels =  ['t[s]'] + ['emg2','emg3','emg4','emg5','emg6','emg7','emg8','emg1']+['labels']
+# emg_df = emg_df.reindex(columns=all_labels)
+
 # emg_df.columns = ['t[s]']+emg_labels
 print(emg_df.columns)
 
 emg_data = np.array(emg_df[emg_labels])
 # emg_ts = np.array(emg_df['t[s]'])
+
 emg_True_labels = np.array(emg_df['labels'])
+prosup_file = 'models/restprosup_fazil_model_250'
+prosup_model = load_model(prosup_file)
 
 def classify(data,model):
     data = np.reshape(data,(1,win_len,n_channels))
@@ -40,7 +46,7 @@ def read_emg_window():
         emg_window = emg_data[i:i+win_len]
         curr_ts = i
         curr_clf = emg_True_labels[i]
-        # sleep(1/2000)
+        sleep(1/200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000)
         i = i+1
 def classify_loop():
     global prosup_clf, emg_window
