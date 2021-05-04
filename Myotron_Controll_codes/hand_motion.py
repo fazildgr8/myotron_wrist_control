@@ -25,6 +25,9 @@ def go_towards_nb(current,limit,step_size=0.01):
         return current 
 
 def class_0(current_qpos,step_size=0.01):
+    """
+    Home Pose
+    """
     qpos = current_qpos
     j = 0
     qpos[0] = go_towards_nb(qpos[3],j)
@@ -43,6 +46,9 @@ def class_0(current_qpos,step_size=0.01):
     return qpos
 
 def class_1(current_qpos,step_size=0.01):
+    """
+    Prosup +ve
+    """
     qpos = current_qpos
     roll = current_qpos[0] 
     nroll = roll+step_size
@@ -53,6 +59,9 @@ def class_1(current_qpos,step_size=0.01):
     return qpos
 
 def class_2(current_qpos,step_size=0.01):
+    """
+    Prosup -ve
+    """
     qpos = current_qpos
     roll = current_qpos[0] 
     nroll = roll-step_size
@@ -63,6 +72,9 @@ def class_2(current_qpos,step_size=0.01):
     return qpos
 
 def class_3(current_qpos,step_size=0.01):
+    """
+    Prosup +ve pinky axis
+    """
     qpos = current_qpos
     roll = current_qpos[0]
     yaw = 0.5
@@ -75,6 +87,9 @@ def class_3(current_qpos,step_size=0.01):
     return qpos
 
 def class_4(current_qpos,step_size=0.01):
+    """
+    Prosup -ve pinky axis
+    """
     qpos = current_qpos
     roll = current_qpos[0]
     yaw = 0.5
@@ -87,6 +102,9 @@ def class_4(current_qpos,step_size=0.01):
     return qpos
 
 def class_5(current_qpos,step_size=0.01):
+    """
+    Flexex -ve 
+    """
     qpos = current_qpos
     pitch = current_qpos[2] 
     npitch = pitch+step_size
@@ -97,6 +115,9 @@ def class_5(current_qpos,step_size=0.01):
     return qpos
 
 def class_6(current_qpos,step_size=0.01):
+    """
+    Flexex +ve 
+    """
     qpos = current_qpos
     pitch = current_qpos[2] 
     npitch = pitch-step_size
@@ -107,6 +128,9 @@ def class_6(current_qpos,step_size=0.01):
     return qpos
 
 def class_7(current_qpos,step_size=0.01):
+    """
+    RadUl -ve 
+    """
     qpos = current_qpos
     yaw = current_qpos[1] 
     nyaw = yaw-step_size
@@ -117,6 +141,9 @@ def class_7(current_qpos,step_size=0.01):
     return qpos
 
 def class_8(current_qpos,step_size=0.01):
+    """
+    RadUl +ve 
+    """
     qpos = current_qpos
     yaw = current_qpos[1] 
     nyaw = yaw+step_size
@@ -127,6 +154,9 @@ def class_8(current_qpos,step_size=0.01):
     return qpos
 
 def class_9(current_qpos,step_size=0.01):
+    """
+    Close hand with Extension 
+    """
     qpos = current_qpos
     pitch = current_qpos[2] 
     npitch = pitch-step_size
@@ -148,6 +178,9 @@ def class_9(current_qpos,step_size=0.01):
     return qpos
 
 def grasp_0(current_qpos,step_size=0.01):
+    """
+    General Grasp 
+    """
     qpos = current_qpos
     qpos[3] = go_towards_nb(qpos[3],2)
     qpos[4] = go_towards_nb(qpos[4],0.5)
@@ -162,6 +195,19 @@ def grasp_0(current_qpos,step_size=0.01):
     qpos[12] = go_towards_nb(qpos[12],j)
 
     return qpos
+
+
+def prosup_mid():
+    return None
+
+def dtm_front():
+    return None
+
+def dtm_back():
+    return None
+
+def dtm_mid():
+    return None
 
 
 wrist_moves = [class_0, class_1, class_2, class_3, class_4, class_5, class_6, class_7, class_8, class_9, grasp_0]

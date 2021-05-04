@@ -1,19 +1,20 @@
 import numpy as np
 from keras.models import load_model
 import pytrigno
-from time import sleep
+from time import sleep,time
 import numpy as np
 import threading
 
 global emg_data, model, prosup_class
 
 
-model_file = 'models/restprosup_model_250'
-model = load_model(model_file)
+
+# model_file = 'models/DTM_400_raw.hdf5'
+# model = load_model(model_file)
+prosup_class = None
 
 
-
-win_len = 250
+win_len = 400
 n_channels = 8
 
 emg_data = np.zeros((win_len,n_channels))
@@ -114,11 +115,27 @@ def classify_thread(delay=0.1):
 
 if __name__ == '__main__':
     thread_emg_aq = threading.Thread(target=multichannel_emg_window)
-    thread_clf = threading.Thread(target=classify_thread)
+    # thread_clf = threading.Thread(target=classify_thread)
     thread_emg_aq.start()
+    # thread_clf.start()
+    start = time()
+    t = []
+    X = []
+    for i in range(11):
+        print(i)
+        sleep(1)
     while(True):
-        print(emg_data.shape)
-        print(prosup_class)
+        # print(emg_data)
+        elp = time() - start
+        print(elp,emg_data.mean)
+        t.append(elp)
+        X.append(emg_data)
+        if(elp>27):
+            print('DONE')
+            np.save('TEST_EMG_400_DTM',np.array(X))
+            np.save('TEST_EMG_400_DTM_t',t)
+            break
+        # print(prosup_class)
         # ctrl.grasp_classifier(emg_data)
     # get_Single_emg(2,1000)
     # get_Single_accel(1,20)
