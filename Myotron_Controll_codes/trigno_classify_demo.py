@@ -127,7 +127,7 @@ if __name__ == '__main__':
     while(True):
         # print(emg_data)
         elp = time() - start
-        print(elp,emg_data.mean)
+        print(elp,emg_data.mean())
         t.append(elp)
         X.append(emg_data)
         if(elp>27):
