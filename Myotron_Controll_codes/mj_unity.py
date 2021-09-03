@@ -3,15 +3,70 @@ import os
 import time
 from random import choice
 from hand_motion import*
+import zmq
+import threading
+from mjremote import mjremote
 
+########################################################
+"""Unity Communication"""
+global uni_context
+
+uni_context = zmq.Context()
+uni_context  = uni_context.socket( zmq.SUB )
+
+uni_context.connect( "tcp://127.0.0.1:5557" )
+# Send the Class(int) of the Move to this ZMQ Socket
+
+uni_context.setsockopt( zmq.LINGER,     0 )
+uni_context.setsockopt_string( zmq.SUBSCRIBE,"")
+uni_context.setsockopt( zmq.CONFLATE,   1 )
+
+
+########################################################
+global Pcontext, Psocket, move_id
+move_id = 0
+Pcontext = zmq.Context()
+Psocket  = Pcontext.socket( zmq.SUB )
+
+Psocket.connect( "tcp://127.0.0.1:5556" )
+# Send the Class(int) of the Move to this ZMQ Socket
+
+Psocket.setsockopt( zmq.LINGER,     0 )
+Psocket.setsockopt_string( zmq.SUBSCRIBE,"")
+Psocket.setsockopt( zmq.CONFLATE,   1 )
+
+def str_to_array(str_arr):
+     list_str = str_arr.split()
+     arr = np.zeros(len(list_str))
+     for i in range(len(list_str)):
+          arr[i] = float(list_str[i]) 
+     return arr
+
+def recv_qpos():
+    global Psocket
+    recv_bytes = Psocket.recv()
+    qpos = str_to_array(recv_bytes.decode("utf-8"))
+    return qpos
+
+def recv_class():
+    global Psocket
+    recv_bytes = Psocket.recv()
+    return int(recv_bytes.decode("utf-8"))
+
+def assign_move():
+    global move_id
+    while True:
+        move_id = recv_class()
 
 ########################################################
 '''
 Mujoco Init Part 
 '''
+mjr = mjremote()
+mjr.connect(address='127.0.0.1',port=1050)
 mj_path, _ = mujoco_py.utils.discover_mujoco()
 xml_path = os.path.join(mj_path, 'model', 'humanoid.xml')
-xml_path = 'F:\The Stuffs\Awear\Mujoco_work\mjhaptix150\model\MPL\MPL_Power.xml'
+xml_path = 'F:/The Stuffs/Awear/Mujoco_work/mjhaptix150/model/MPL/MPL_Basic.xml'
 model = mujoco_py.load_model_from_path(xml_path)
 global sim, viewer, current_qpos
 sim = mujoco_py.MjSim(model)
@@ -40,7 +95,7 @@ def get_current_qpos(sim):
 def update_qpos(pos):
     global sim
     pos = np.array(pos)
-    print(sim.nqpos)
+    # print(pos)
     sim.data.ctrl[0] = pos[0]  
     sim.data.ctrl[1] = pos[1]
     sim.data.ctrl[2] = pos[2]
@@ -98,11 +153,15 @@ def full_update_motion(clf_class):
 ##########################################################
 
 if __name__ == "__main__":
+    thread = threading.Thread(target=assign_move)
+    thread.start()
     current_qpos = rest_qpos()
     full_update_motion(class_0)
-    while True: 
-        # full_update_motion(wrist_moves[4])
-        full_update_motion(wrist_moves[10])
+    while True:
+        mjr.setqpos(sim.data.qpos)
+        full_update_motion(wrist_moves[move_id])
+
+        # full_update_motion(wrist_moves[1])
 
 
 """

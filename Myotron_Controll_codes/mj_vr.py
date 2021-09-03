@@ -1,31 +1,35 @@
-
 '''
 EXPERIMENTAL:  Displays MuJoCo model in VR.
+
 Based on http://www.mujoco.org/book/source/mjvive.cpp
     No controller integration currently
+
 This example is a demonstration of a near-direct translation of an existing
     MuJoCo example (mjvive.cpp), showing how to use lower-level functionality
     in conjunction with Python.
+
 Known occasional issues with SteamVR (all-black textures seen),
     fixed by closing and re-opening.
+
 Requires HTC Vive, Windows, and OpenVR.
+
 Install openvr python module with:
     pip install openvr
 '''
 
+
 import math
 import os
-import glfw
 import openvr
 import numpy as np
 import OpenGL.GL as gl
-from mujoco_py import functions
+from mujoco_py import functions,MjViewer
 from mujoco_py.builder import mujoco_path
 from mujoco_py.cymj import (MjRenderContext, MjSim, load_model_from_xml,
                             PyMjrRect, PyMjvCamera, load_model_from_path)
 from mujoco_py.generated.const import (CAT_ALL, FB_OFFSCREEN, FONT_BIG,
                                        GRID_BOTTOMLEFT, STEREO_SIDEBYSIDE)
-
+import glfw
 
 # Normally global variables aren't used like this in python,
 # but we want to be as close as possible to the original file.
@@ -37,6 +41,7 @@ window = None
 sim = None
 ctx = None
 hmd = HMD()
+
 
 
 def initMuJoCo(filename, width2, height):
@@ -51,7 +56,6 @@ def initMuJoCo(filename, width2, height):
     glfw.make_context_current(window)
     glfw.swap_interval(0)
     # GLEW init required in C++, not in Python
-    # sim = MjSim(load_model_from_xml(open(filename).read()))
     sim = MjSim(load_model_from_path(filename))
     sim.forward()
     sim.model.vis.global_.offwidth = width2
@@ -100,13 +104,13 @@ def v_initPost():
     hmd.poses = (openvr.TrackedDevicePose_t * openvr.k_unMaxTrackedDeviceCount)()
     hmd.boundLeft = openvr.VRTextureBounds_t(0., 0., 0.5, 1.)
     hmd.boundRight = openvr.VRTextureBounds_t(0.5, 0., 1., 1.)
-    hmd.vTex = openvr.Texture_t(hmd.idtex, openvr.TextureType_OpenGL, openvr.ColorSpace_Gamma)
+    hmd.vTex = openvr.Texture_t(int(hmd.idtex), int(openvr.TextureType_OpenGL), int(openvr.ColorSpace_Gamma))
 
 
 def v_update():
     ''' update vr poses and controller states '''
     global ctx, hmd
-    openvr.VRCompositor().waitGetPoses(hmd.poses, openvr.k_unMaxTrackedDeviceCount, None, 0)
+    openvr.VRCompositor().waitGetPoses(hmd.poses, openvr.k_unMaxTrackedDeviceCount)
     m = np.array(hmd.poses[openvr.k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking.m)
     hmd.roompos, hmd.roommat = m[0:3, 3], m[0:3, 0:3]
     for n in range(2):
@@ -144,6 +148,9 @@ def v_render():
                          gl.GL_COLOR_BUFFER_BIT, gl.GL_NEAREST)
     gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT1, gl.GL_TEXTURE_2D, 0, 0)
     gl.glDrawBuffer(gl.GL_COLOR_ATTACHMENT0)
+
+    gl.glEnable(gl.GL_DEBUG_OUTPUT)
+
     openvr.VRCompositor().submit(openvr.Eye_Left, hmd.vTex, hmd.boundLeft)
     openvr.VRCompositor().submit(openvr.Eye_Right, hmd.vTex, hmd.boundRight)
     # swap if window is double-buffered, flush just in case
@@ -153,14 +160,17 @@ def v_render():
 
 
 if __name__ == '__main__':
-    filename = r'C:/Users/moham/.mujoco/mujoco200/model/humanoid.xml'
+    filename = 'F:/The Stuffs/Awear/Mujoco_work/mjhaptix150/model/MPL/MPL_Basic.xml'
+    # 
     v_initPre()
     initMuJoCo(filename, hmd.width * 2, hmd.height)
+    
     v_initPost()
 
     FPS = 90.0
     lasttm = glfw.get_time()
     frametime = sim.data.time
+    # viewer = MjViewer(sim)
     viewFull = PyMjrRect()
     viewFull.width, viewFull.height = 2 * hmd.width, hmd.height
     nullCam = PyMjvCamera()
@@ -176,6 +186,7 @@ if __name__ == '__main__':
             functions.mjr_overlay(FONT_BIG, GRID_BOTTOMLEFT, viewFull, 'FPS %.1f' % FPS, '', ctx.con)
             v_render()
             frametime = sim.data.time
+            
         sim.step()
         glfw.poll_events()
     # close
